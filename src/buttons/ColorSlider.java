@@ -109,14 +109,14 @@ public class ColorSlider extends JLabel implements MouseListener, ChangeListener
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.setBackground(LIGHT_GRAY);
+		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.setBackground(DEFAULT_COLOR);
+		
 	}
 
 

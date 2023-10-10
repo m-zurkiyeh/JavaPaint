@@ -13,6 +13,7 @@ public class ColorPicker extends JLabel implements MouseListener {
 	private Cursor c;
 	private static JFrame frame = MainApplication.getFrame();
 	private CanvasPanel drawingPanel;
+	private static final Color LIGHT_GRAY = new Color(204,204,204), DEFAULT_COLOR = new Color(238,238,238);
 	public ColorPicker() {
 		
 	}
@@ -31,7 +32,7 @@ public class ColorPicker extends JLabel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == this) {
-			c = Toolkit.getDefaultToolkit().createCustomCursor(img.getImage(), new Point(0,0), TOOL_TIP_TEXT_KEY);
+			c = Toolkit.getDefaultToolkit().createCustomCursor(img.getImage(), new Point(10,30), TOOL_TIP_TEXT_KEY);
 			frame.setCursor(c);
 			drawingPanel.setCurrentTool("Color Picker");
 		}
@@ -51,13 +52,13 @@ public class ColorPicker extends JLabel implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		this.setBackground(LIGHT_GRAY);
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+		this.setBackground(DEFAULT_COLOR);
 		
 	}
 	

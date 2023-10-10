@@ -14,7 +14,7 @@ import java.awt.*;
  * This class represents the primary panel in which the user will be drawing on
  * 
  * @author Malik
- *
+ * 
  */
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener {
 
@@ -23,8 +23,9 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 	private ArrayList<Color> colors = new ArrayList<>();
 	static ColorSlider cs = new ColorSlider();
 	public static String currentTool = "Pencil";
-
+	private int x, y;
 	static Color newColor = cs.getColor();
+	private Color pickerColor;
 	Graphics graphics;
 	Graphics2D g2D;
 	/**
@@ -39,7 +40,97 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 	 *          constructor is necessary
 	 */
 	public CanvasPanel(int i) {
-		addMouseMotionListener(this);
+		addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			/**
+			 * Almost identical result as mouseClicked except repaint() is called to call
+			 * the overridden paint function
+			 * 
+			 * @param e the object of type MouseEvent
+			 * @return void
+			 */
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				switch (currentTool) {
+				case "Pencil":
+					newColor = cs.getColor();
+					points.add(new Point(e.getX(), e.getY()));
+					colors.add(newColor);
+					repaint();
+					break;
+				}
+
+			}
+		});
+		addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				switch (currentTool) {
+				case "Color Picker":
+					try {
+						Point co = MouseInfo.getPointerInfo().getLocation();
+						Robot robot = new Robot();
+						pickerColor = robot.getPixelColor((int)co.getX(), (int)co.getY());
+						System.out.printf("The Clicked area's color is R: %d G: %d B: %d\n", pickerColor.getRed(),
+								pickerColor.getGreen(), pickerColor.getBlue());
+
+					} catch (Exception ex) {
+
+					}
+
+				}
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				switch (currentTool) {
+
+				case "Pencil":
+					points.add(new Point(e.getX(), e.getY()));
+					colors.add(newColor);
+					repaint();
+					break;
+
+				}
+
+			}
+
+			/**
+			 * After the mouse has been released, all items inside of the points and colors
+			 * Array lists are removed to save resources
+			 * 
+			 * @return void
+			 */
+			@Override
+			public void mouseReleased(MouseEvent e) {
+//				for (int i = 0; i < points.size(); i++) {
+//					points.remove(points.get(i));
+//					colors.remove(colors.get(i));
+//				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
 		setVisible(true);
 	}
 
@@ -52,13 +143,16 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		switch (currentTool) {
-		case "Pencil":
-			points.add(new Point(e.getX(), e.getY()));
-			colors.add(newColor);
-			repaint();
-			break;
-		}
+
+//		System.out.println("being clicked");
+//
+//		switch (currentTool) {
+//		case "Pencil":
+//			points.add(new Point(e.getX(), e.getY()));
+//			colors.add(newColor);
+//			repaint();
+//			break;
+//		}
 	}
 
 	/**
@@ -68,17 +162,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		switch (currentTool) {
-		case "Pencil":
-			points.add(new Point(e.getX(), e.getY()));
-			colors.add(newColor);
-			repaint();
-			break;
-		case "Color Picker":
-			System.out.println("It pick colors");
-			break;
-
-		}
 
 	}
 
@@ -90,10 +173,10 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		for (int i = 0; i < points.size(); i++) {
-			points.remove(points.get(i));
-			colors.remove(colors.get(i));
-		}
+//		for (int i = 0; i < points.size(); i++) {
+//			points.remove(points.get(i));
+//			colors.remove(colors.get(i));
+//		}
 
 	}
 
@@ -125,7 +208,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 			colors.add(newColor);
 			repaint();
 			break;
-
 		}
 
 	}
@@ -149,7 +231,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		g2D = (Graphics2D) g;
 		for (int i = 0; i < points.size(); i++) {
 			g2D.setColor(colors.get(i));
-			g2D.fillOval(points.get(i).x, points.get(i).y, 30, 30);
+			g2D.fillOval(points.get(i).x - 15, points.get(i).y - 20, 30, 30);
 
 		}
 

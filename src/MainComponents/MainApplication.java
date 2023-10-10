@@ -37,11 +37,12 @@ public class MainApplication {
 	}
 	
 	MainApplication(int i) {
-		frame.setSize(new Dimension((int) width - 20, (int) height - 60));
+		//frame.setSize(new Dimension((int) width - 20, (int) height - 60));
+		frame.setSize(new Dimension(800,600));
 		frame.setTitle("Canvas Painter");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.add(cp,BorderLayout.CENTER);
 		frame.add(bm, BorderLayout.WEST);
