@@ -8,21 +8,27 @@ import javax.swing.event.*;
 import MainComponents.*;
 
 public class ColorPicker extends JLabel implements MouseListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private URL iconUrl;
 	private ImageIcon img;
 	private Cursor c;
 	private static JFrame frame = MainApplication.getFrame();
 	private CanvasPanel drawingPanel;
 	private static final Color LIGHT_GRAY = new Color(204,204,204), DEFAULT_COLOR = new Color(238,238,238);
+	private static Square square;
 	public ColorPicker() {
 		
 	}
 	
-	public ColorPicker(int i, CanvasPanel drawingPanel) {
+	public ColorPicker(int i, CanvasPanel drawingPanel, Square square) {
 		iconUrl = getClass().getClassLoader().getResource("./images/ColorPicker.png");
 		img = new ImageIcon(new ImageIcon(iconUrl).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		addMouseListener(this);
 		this.drawingPanel = drawingPanel;
+		this.square = square;
 		
 		this.setIcon(img);
 		this.setOpaque(true);
@@ -60,6 +66,10 @@ public class ColorPicker extends JLabel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		this.setBackground(DEFAULT_COLOR);
 		
+	}
+	
+	public static void changeBgColor(Color c) {
+		square.setBackground(c);
 	}
 	
 

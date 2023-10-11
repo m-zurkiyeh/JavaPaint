@@ -29,8 +29,10 @@ public class MainApplication {
 	JMenu fileMenu,helpMenu;
 	Eraser e = new Eraser();
 	ColorSlider cs = new ColorSlider(1);
-	ColorPicker colPicker = new ColorPicker(1,cp);
-	Object [] swingComponents = {e,cs,colPicker};
+	Square s = new Square();
+	Pencil p = new Pencil(cp);
+	ColorPicker colPicker = new ColorPicker(1,cp,s);
+	Object [] swingComponents = {e,cs,colPicker,s,p};
 	
 	public MainApplication() {
 		// TODO Auto-generated constructor stub
