@@ -38,6 +38,10 @@ public class MainApplication {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Parameterized Constructor for the MainApplication Class
+	 * @param i
+	 */
 	MainApplication(int i) {
 		//frame.setSize(new Dimension((int) width - 20, (int) height - 60));
 		frame.setSize(new Dimension(1280,800));
