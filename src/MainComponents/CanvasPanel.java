@@ -17,16 +17,17 @@ import java.awt.*;
  * @author Malik
  * 
  */
-public class CanvasPanel extends JPanel{
+public class CanvasPanel extends JPanel {
 
 	// Both arraylists are essential. Do not Remove!
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Color> colors = new ArrayList<>();
 	static ColorSlider cs = new ColorSlider();
 	public static String currentTool = "Pencil";
-	private int x, y;
-	static Color newColor = cs.getColor();
-	private Color pickerColor;
+	private Robot robot;
+	private Point co;
+	static Color newColor;
+	private Color pickerColor, pickedColor;
 	Graphics graphics;
 	Graphics2D g2D;
 	/**
@@ -60,7 +61,6 @@ public class CanvasPanel extends JPanel{
 			public void mouseDragged(MouseEvent e) {
 				switch (currentTool) {
 				case "Pencil":
-					newColor = cs.getColor();
 					points.add(new Point(e.getX(), e.getY()));
 					colors.add(newColor);
 					repaint();
@@ -77,13 +77,11 @@ public class CanvasPanel extends JPanel{
 				switch (currentTool) {
 				case "Color Picker":
 					try {
-						Point co = MouseInfo.getPointerInfo().getLocation();
-						Robot robot = new Robot();
-						pickerColor = robot.getPixelColor((int)co.getX(), (int)co.getY());
-						System.out.printf("The Clicked area's color is R: %d G: %d B: %d\n", pickerColor.getRed(),
-								pickerColor.getGreen(), pickerColor.getBlue());
-						ColorPicker.changeBgColor(new Color(pickerColor.getRed(),
-								pickerColor.getGreen(), pickerColor.getBlue()));
+						co = MouseInfo.getPointerInfo().getLocation();
+						robot = new Robot();
+						pickerColor = robot.getPixelColor((int) co.getX(), (int) co.getY());
+						pickedColor = new Color(pickerColor.getRed(), pickerColor.getGreen(), pickerColor.getBlue());
+						ColorPicker.changeBgColor(pickedColor);
 
 					} catch (Exception ex) {
 
@@ -177,6 +175,12 @@ public class CanvasPanel extends JPanel{
 		return this;
 	}
 
+	/**
+	 * Sets the string
+	 * 
+	 * @param tool
+	 * @return void
+	 */
 	public void setCurrentTool(String tool) {
 		currentTool = tool;
 	}

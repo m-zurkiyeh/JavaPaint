@@ -29,7 +29,7 @@ public class MainApplication {
 	JMenu fileMenu,helpMenu;
 	Eraser e = new Eraser();
 	ColorSlider cs = new ColorSlider(1);
-	Square s = new Square();
+	Square s = new Square(cp);
 	Pencil p = new Pencil(cp);
 	ColorPicker colPicker = new ColorPicker(1,cp,s);
 	Object [] swingComponents = {e,cs,colPicker,s,p};
@@ -40,7 +40,7 @@ public class MainApplication {
 	
 	MainApplication(int i) {
 		//frame.setSize(new Dimension((int) width - 20, (int) height - 60));
-		frame.setSize(new Dimension(800,600));
+		frame.setSize(new Dimension(1280,800));
 		frame.setTitle("Canvas Painter");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
