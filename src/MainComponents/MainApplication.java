@@ -27,7 +27,7 @@ public class MainApplication {
 	TopMenu tm = new TopMenu();
 	CanvasPanel cp = new CanvasPanel(1);
 	JMenu fileMenu,helpMenu;
-	Eraser e = new Eraser();
+	Eraser e = new Eraser(cp);
 	ColorSlider cs = new ColorSlider(1);
 	Square s = new Square(cp);
 	Pencil p = new Pencil(cp);

@@ -19,6 +19,10 @@ import java.awt.*;
  */
 public class CanvasPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Both arraylists are essential. Do not Remove!
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Color> colors = new ArrayList<>();
@@ -30,10 +34,6 @@ public class CanvasPanel extends JPanel {
 	private Color pickerColor, pickedColor;
 	Graphics graphics;
 	Graphics2D g2D;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Parameterized constructor for CanvasPanel
@@ -61,6 +61,7 @@ public class CanvasPanel extends JPanel {
 			public void mouseDragged(MouseEvent e) {
 				switch (currentTool) {
 				case "Pencil":
+				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
 					colors.add(newColor);
 					repaint();
@@ -81,7 +82,10 @@ public class CanvasPanel extends JPanel {
 						robot = new Robot();
 						pickerColor = robot.getPixelColor((int) co.getX(), (int) co.getY());
 						pickedColor = new Color(pickerColor.getRed(), pickerColor.getGreen(), pickerColor.getBlue());
-						ColorPicker.changeBgColor(pickedColor);
+						System.out.println(pickerColor.getRed() + " " + pickerColor.getGreen() + " " + pickerColor.getBlue());
+						if(pickerColor.getRed() == 238 && pickerColor.getGreen() == 238 && pickerColor.getBlue() == 238) {
+							System.out.println("White");
+						} else ColorPicker.changeBgColor(pickedColor);
 
 					} catch (Exception ex) {
 
@@ -96,6 +100,7 @@ public class CanvasPanel extends JPanel {
 				switch (currentTool) {
 
 				case "Pencil":
+				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
 					colors.add(newColor);
 					repaint();
@@ -188,5 +193,7 @@ public class CanvasPanel extends JPanel {
 	public String getCurrentTool() {
 		return currentTool;
 	}
+	
+	
 
 }
