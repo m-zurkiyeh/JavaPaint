@@ -199,7 +199,7 @@ public class CanvasPanel extends JPanel {
 	 * @return void
 	 */
 	public void setDrawColor(Color newColor) {
-		if(getCurrentTool().equals("Pencil") || getCurrentTool().equals("Eraser")) {
+		if(getCurrentTool().equals("Pencil")) {
 			lastColor = newColor;
 		} 
 	}

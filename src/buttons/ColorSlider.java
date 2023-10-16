@@ -24,7 +24,7 @@ public class ColorSlider extends JLabel implements MouseListener, ChangeListener
 	private JButton colorDialogValidateButton;
 	private JDialog colorDialog;
 	private JSlider rSlider, gSlider, bSlider;
-	private CanvasPanel cv = new CanvasPanel();
+	private CanvasPanel cv;
 
 	/**
 	 * Default Constructor for ColorSlider
@@ -38,7 +38,8 @@ public class ColorSlider extends JLabel implements MouseListener, ChangeListener
 	 * Initializes the ColorSlider to be shown as well as its actions
 	 * @param i just a placeholder int file to allow the use of the default constructor
 	 */
-	public ColorSlider(int i) {
+	public ColorSlider(int i, CanvasPanel cv) {
+		this.cv = cv;
 		iconUrl = getClass().getClassLoader().getResource("./images/ColorChooser.png");
 		img = new ImageIcon(new ImageIcon(iconUrl).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		addMouseListener(this);

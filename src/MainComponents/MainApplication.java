@@ -29,7 +29,7 @@ public class MainApplication {
 	CanvasPanel cp = new CanvasPanel(1);
 	JMenu fileMenu, helpMenu;
 	Eraser e = new Eraser(cp);
-	ColorSlider cs = new ColorSlider(1);
+	ColorSlider cs = new ColorSlider(1,cp);
 	Square s = new Square(cp);
 	Pencil p = new Pencil(cp);
 	PaintBucket pb = new PaintBucket(cp);
