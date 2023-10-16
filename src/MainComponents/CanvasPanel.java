@@ -70,12 +70,12 @@ public class CanvasPanel extends JPanel {
 				switch (currentTool) {
 				case "Pencil":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(lastColor);
+					colors.add(getDrawColor());
 					repaint();
 					break;
 				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(eraserColor);
+					colors.add(getDrawColor());
 					repaint();
 					break;
 				case "Line Draw":
@@ -107,7 +107,7 @@ public class CanvasPanel extends JPanel {
 					}
 					break;
 				case "Paint Bucket":
-					setBackground(color);
+					setBackground(lastColor);
 				}
 
 			}
@@ -117,12 +117,12 @@ public class CanvasPanel extends JPanel {
 				switch (currentTool) {
 				case "Pencil":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(lastColor);
+					colors.add(getDrawColor());
 					repaint();
 					break;
 				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(eraserColor);
+					colors.add(getDrawColor());
 					repaint();
 					break;
 				case "Line Draw":
@@ -199,9 +199,8 @@ public class CanvasPanel extends JPanel {
 	 * @return void
 	 */
 	public void setDrawColor(Color newColor) {
-		if(getCurrentTool().equals("Pencil")) {
-			lastColor = newColor;
-		} 
+		lastColor = newColor;
+
 	}
 
 	/**
