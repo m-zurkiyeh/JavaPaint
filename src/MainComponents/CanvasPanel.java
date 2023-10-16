@@ -24,16 +24,24 @@ public class CanvasPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	// Both arraylists are essential. Do not Remove!
-	private ArrayList<Point> points = new ArrayList<>();
-	private ArrayList<Color> colors = new ArrayList<>();
+	private ArrayList<Point> points = new ArrayList<>(), eraPoints = new ArrayList<>();
+	private ArrayList<Color> colors = new ArrayList<>(), eraColors = new ArrayList<>();
 	static ColorSlider cs = new ColorSlider();
 	public static String currentTool = "Pencil";
+	private int xbegin = 0, ybegin = 0, xend = 0, yend = 0;
 	private Robot robot;
-	private Point co;
-	static Color newColor;
+	private Point co, startPoint;
+	private static Color color, eraserColor = new Color(238, 238, 238), lastColor = new Color(51, 51, 51);
 	private Color pickerColor, pickedColor;
 	Graphics graphics;
 	Graphics2D g2D;
+
+	/**
+	 * Default Constructor for the CanvasPanel Class
+	 */
+	public CanvasPanel() {
+
+	}
 
 	/**
 	 * Parameterized constructor for CanvasPanel
@@ -61,9 +69,18 @@ public class CanvasPanel extends JPanel {
 			public void mouseDragged(MouseEvent e) {
 				switch (currentTool) {
 				case "Pencil":
+					points.add(new Point(e.getX(), e.getY()));
+					colors.add(lastColor);
+					repaint();
+					break;
 				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(newColor);
+					colors.add(eraserColor);
+					repaint();
+					break;
+				case "Line Draw":
+					xbegin = xend = e.getX();
+					ybegin = yend = e.getY();
 					repaint();
 					break;
 				}
@@ -82,15 +99,15 @@ public class CanvasPanel extends JPanel {
 						robot = new Robot();
 						pickerColor = robot.getPixelColor((int) co.getX(), (int) co.getY());
 						pickedColor = new Color(pickerColor.getRed(), pickerColor.getGreen(), pickerColor.getBlue());
-						System.out.println(pickerColor.getRed() + " " + pickerColor.getGreen() + " " + pickerColor.getBlue());
-						if(pickerColor.getRed() == 238 && pickerColor.getGreen() == 238 && pickerColor.getBlue() == 238) {
-							System.out.println("White");
-						} else ColorPicker.changeBgColor(pickedColor);
+						System.out.println(pickerColor.toString());
+						ColorPicker.changeBgColor(pickedColor);
 
 					} catch (Exception ex) {
-
+						System.out.println("An error has ocurred");
 					}
-
+					break;
+				case "Paint Bucket":
+					setBackground(color);
 				}
 
 			}
@@ -98,14 +115,18 @@ public class CanvasPanel extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				switch (currentTool) {
-
 				case "Pencil":
-				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(newColor);
+					colors.add(lastColor);
 					repaint();
 					break;
-
+				case "Eraser":
+					points.add(new Point(e.getX(), e.getY()));
+					colors.add(eraserColor);
+					repaint();
+					break;
+				case "Line Draw":
+					break;
 				}
 
 			}
@@ -118,10 +139,12 @@ public class CanvasPanel extends JPanel {
 			 */
 			@Override
 			public void mouseReleased(MouseEvent e) {
-//				for (int i = 0; i < points.size(); i++) {
-//					points.remove(points.get(i));
-//					colors.remove(colors.get(i));
-//				}
+				switch (currentTool) {
+				case "Line Draw":
+					xend = e.getX();
+					yend = e.getY();
+					repaint();
+				}
 			}
 
 			@Override
@@ -137,14 +160,8 @@ public class CanvasPanel extends JPanel {
 			}
 
 		});
+		setOpaque(true);
 		setVisible(true);
-	}
-
-	/**
-	 * Default Constructor for the CanvasPanel Class
-	 */
-	public CanvasPanel() {
-
 	}
 
 	/**
@@ -158,10 +175,19 @@ public class CanvasPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g2D = (Graphics2D) g;
-		for (int i = 0; i < points.size(); i++) {
-			g2D.setColor(colors.get(i));
-			g2D.fillOval(points.get(i).x - 15, points.get(i).y - 20, 30, 30);
+		switch (currentTool) {
+		case "Pencil":
+		case "Eraser":
+			for (int i = 0; i < points.size(); i++) {
+				g2D.setColor(colors.get(i));
+				Point p = points.get(i);
+				g2D.fillOval((int) p.getX() - 15, (int) p.getY() - 15, 30, 30);
+			}
+			break;
 
+		case "Line Draw":
+			g2D.drawLine(xbegin, ybegin, xend, yend);
+			break;
 		}
 
 	}
@@ -172,12 +198,10 @@ public class CanvasPanel extends JPanel {
 	 * @param c the object of type Color
 	 * @return void
 	 */
-	public void setDrawColor(Color c) {
-		newColor = c;
-	}
-
-	public JPanel getPanel() {
-		return this;
+	public void setDrawColor(Color newColor) {
+		if(getCurrentTool().equals("Pencil") || getCurrentTool().equals("Eraser")) {
+			lastColor = newColor;
+		} 
 	}
 
 	/**
@@ -193,7 +217,14 @@ public class CanvasPanel extends JPanel {
 	public String getCurrentTool() {
 		return currentTool;
 	}
-	
-	
+
+	public Color getDrawColor() {
+		if (currentTool.equals("Eraser")) {
+			return eraserColor; // Use the eraser color when the eraser tool is active
+		} else {
+			return lastColor; // Use the selected color for other tools
+		}
+
+	}
 
 }

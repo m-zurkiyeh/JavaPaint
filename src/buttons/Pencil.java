@@ -64,13 +64,13 @@ public class Pencil extends JLabel implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		this.setBackground(LIGHT_GRAY);
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+		this.setBackground(DEFAULT_COLOR);
 		
 	}
 

@@ -1,4 +1,5 @@
 package MainComponents;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -26,45 +27,45 @@ public class MainApplication {
 	ButtonsMenu bm = new ButtonsMenu();
 	TopMenu tm = new TopMenu();
 	CanvasPanel cp = new CanvasPanel(1);
-	JMenu fileMenu,helpMenu;
+	JMenu fileMenu, helpMenu;
 	Eraser e = new Eraser(cp);
 	ColorSlider cs = new ColorSlider(1);
 	Square s = new Square(cp);
 	Pencil p = new Pencil(cp);
-	ColorPicker colPicker = new ColorPicker(1,cp,s);
-	Object [] swingComponents = {e,cs,colPicker,s,p};
-	
+	PaintBucket pb = new PaintBucket(cp);
+	ColorPicker colPicker = new ColorPicker(1, cp, s);
+	LineDraw ld = new LineDraw(cp);
+	private Object[] swingComponents = { e, cs, colPicker, s, p, pb,ld};
+
 	public MainApplication() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * Parameterized Constructor for the MainApplication Class
+	 * 
 	 * @param i
 	 */
 	MainApplication(int i) {
-		//frame.setSize(new Dimension((int) width - 20, (int) height - 60));
-		frame.setSize(new Dimension(1280,800));
+		initGUI(swingComponents);
+	}
+
+	private void initGUI(Object[] components) {
+		frame.setSize(new Dimension(1280, 800));
 		frame.setTitle("Canvas Painter");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
-		frame.add(cp,BorderLayout.CENTER);
+		frame.add(cp, BorderLayout.CENTER);
 		frame.add(bm, BorderLayout.WEST);
 		frame.setJMenuBar(tm);
-		initGUI();
-		bm.setLayout(new FlowLayout(FlowLayout.LEFT));
-		//frame.setLayout(null);
-		frame.setVisible(true);
-
-	}
-	
-	private void initGUI() {
-		for(Object o : swingComponents)
+		for (Object o : components)
 			bm.add((Component) o);
+		bm.setLayout(new FlowLayout(FlowLayout.LEFT));
+		frame.setVisible(true);
 	}
-	
+
 	public static JFrame getFrame() {
 		return frame;
 	}
