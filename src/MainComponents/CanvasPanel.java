@@ -26,13 +26,14 @@ public class CanvasPanel extends JPanel {
 	// Both arraylists are essential. Do not Remove!
 	private ArrayList<Point> points = new ArrayList<>(), eraPoints = new ArrayList<>();
 	private ArrayList<Color> colors = new ArrayList<>(), eraColors = new ArrayList<>();
+	private ArrayList<Integer> drawSizes = new ArrayList();
 	static ColorSlider cs = new ColorSlider();
 	public static String currentTool = "Pencil";
-	private int xbegin = 0, ybegin = 0, xend = 0, yend = 0;
+	private int drawSize = 30, xbegin = 0, ybegin = 0, xend = 0, yend = 0;
 	private Robot robot;
 	private Point co, startPoint;
-	private static Color color, eraserColor = new Color(238, 238, 238), lastColor = new Color(51, 51, 51);
-	private Color pickerColor, pickedColor;
+	private Color color, pickerColor, pickedColor, eraserColor = new Color(238, 238, 238),
+			lastColor = new Color(51, 51, 51);
 	Graphics graphics;
 	Graphics2D g2D;
 
@@ -71,11 +72,13 @@ public class CanvasPanel extends JPanel {
 				case "Pencil":
 					points.add(new Point(e.getX(), e.getY()));
 					colors.add(getDrawColor());
+					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
 					colors.add(eraserColor);
+					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Line Draw":
@@ -118,11 +121,13 @@ public class CanvasPanel extends JPanel {
 				case "Pencil":
 					points.add(new Point(e.getX(), e.getY()));
 					colors.add(color);
+					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
 					colors.add(eraserColor);
+					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Line Draw":
@@ -181,7 +186,7 @@ public class CanvasPanel extends JPanel {
 			for (int i = 0; i < points.size(); i++) {
 				g2D.setColor(colors.get(i));
 				Point p = points.get(i);
-				g2D.fillOval((int) p.getX() - 15, (int) p.getY() - 15, 30, 30);
+				g2D.fillOval((int) p.getX() - 15, (int) p.getY() - 15, drawSizes.get(i),drawSizes.get(i));
 			}
 			break;
 
@@ -203,6 +208,11 @@ public class CanvasPanel extends JPanel {
 		lastColor = color;
 	}
 	
+	public void setDrawSize(int drawSize) {
+		this.drawSize = drawSize;		
+	}
+
+	
 	public Color getLastColor() {
 		return lastColor;
 	}
@@ -210,6 +220,7 @@ public class CanvasPanel extends JPanel {
 	public void setEraserColor(Color newColor) {
 		eraserColor = newColor;
 	}
+
 	/**
 	 * Sets the string
 	 * 

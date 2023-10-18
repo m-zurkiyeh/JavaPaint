@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.Objects;
 
@@ -25,11 +26,11 @@ public class MainApplication {
 	private double width = screenSize.getWidth(), height = screenSize.getHeight();
 	boolean colorChanged = true;
 	private static JFrame frame = new JFrame();
-	PencilAdjust pa = new PencilAdjust();
+	CanvasPanel cp = new CanvasPanel(1);
+	PencilAdjust pa = new PencilAdjust(cp);
 	InnerTools it = new InnerTools();
 	ButtonsMenu bm = new ButtonsMenu();
 	TopMenu tm = new TopMenu();
-	CanvasPanel cp = new CanvasPanel(1);
 	JMenu fileMenu, helpMenu;
 	Eraser e = new Eraser(cp);
 	ColorSlider cs = new ColorSlider(1,cp);
@@ -60,12 +61,14 @@ public class MainApplication {
 		frame.setVisible(true);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
+		frame.add(pa,BorderLayout.NORTH);
 		frame.add(cp, BorderLayout.CENTER);
 		frame.add(bm, BorderLayout.WEST);
 		frame.setJMenuBar(tm);
 		for (Object o : components)
 			bm.add((Component) o);
 		bm.setLayout(new FlowLayout(FlowLayout.LEFT));
+		pa.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		frame.setVisible(true);
 	}
 
