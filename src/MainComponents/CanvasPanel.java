@@ -75,7 +75,7 @@ public class CanvasPanel extends JPanel {
 					break;
 				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(getDrawColor());
+					colors.add(eraserColor);
 					repaint();
 					break;
 				case "Line Draw":
@@ -117,12 +117,12 @@ public class CanvasPanel extends JPanel {
 				switch (currentTool) {
 				case "Pencil":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(getDrawColor());
+					colors.add(color);
 					repaint();
 					break;
 				case "Eraser":
 					points.add(new Point(e.getX(), e.getY()));
-					colors.add(getDrawColor());
+					colors.add(eraserColor);
 					repaint();
 					break;
 				case "Line Draw":
@@ -199,10 +199,17 @@ public class CanvasPanel extends JPanel {
 	 * @return void
 	 */
 	public void setDrawColor(Color newColor) {
-		lastColor = newColor;
-
+		color = newColor;
+		lastColor = color;
+	}
+	
+	public Color getLastColor() {
+		return lastColor;
 	}
 
+	public void setEraserColor(Color newColor) {
+		eraserColor = newColor;
+	}
 	/**
 	 * Sets the string
 	 * 
@@ -218,11 +225,7 @@ public class CanvasPanel extends JPanel {
 	}
 
 	public Color getDrawColor() {
-		if (currentTool.equals("Eraser")) {
-			return eraserColor; // Use the eraser color when the eraser tool is active
-		} else {
-			return lastColor; // Use the selected color for other tools
-		}
+		return color;
 
 	}
 

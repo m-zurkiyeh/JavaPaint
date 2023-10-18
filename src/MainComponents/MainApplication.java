@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import buttons.*;
 import menu_items.PicImport;
+import innerTools.*;
 
 public class MainApplication {
 	/**
@@ -24,6 +25,8 @@ public class MainApplication {
 	private double width = screenSize.getWidth(), height = screenSize.getHeight();
 	boolean colorChanged = true;
 	private static JFrame frame = new JFrame();
+	PencilAdjust pa = new PencilAdjust();
+	InnerTools it = new InnerTools();
 	ButtonsMenu bm = new ButtonsMenu();
 	TopMenu tm = new TopMenu();
 	CanvasPanel cp = new CanvasPanel(1);

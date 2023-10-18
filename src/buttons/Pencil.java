@@ -47,6 +47,7 @@ public class Pencil extends JLabel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		cv.setCurrentTool("Pencil");
 		frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		cv.setDrawColor(cv.getLastColor());
 		
 	}
 

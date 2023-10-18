@@ -98,7 +98,7 @@ public class ColorSlider extends JLabel implements MouseListener, ChangeListener
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
