@@ -13,16 +13,18 @@ public class PencilAdjust extends JPanel implements ChangeListener {
 	private CanvasPanel cv;
 	private JSlider size = new JSlider(10,80);
 	private SizePreview sp;
-	private int drawSize;
+	private int drawSize = 30;
 	public PencilAdjust(CanvasPanel cv) {
-		sp = new SizePreview(this,cv);
-		this.cv = cv;
 		this.setPreferredSize(new Dimension(150, 100));
-		this.setVisible(true);
-		this.setOpaque(true);
+		this.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		sp = new SizePreview(this,cv);
 		size.addChangeListener(this);
 		add(size);
 		add(sp);
+		sp.repaint();
+		this.cv = cv;
+		this.setVisible(true);
+		this.setOpaque(true);
 
 	}
 
@@ -38,15 +40,6 @@ public class PencilAdjust extends JPanel implements ChangeListener {
 		return drawSize;
 	}
 	
-	@Override
-    public void paint(Graphics g)
-    {
-        super.paintComponent(g);
-        g.setColor(cv.getDrawColor());
-        g.fillOval(500, 500, getDrawSize(), getDrawSize());
-
-        ui.update(g, this);
-    }
 	
 	
 }

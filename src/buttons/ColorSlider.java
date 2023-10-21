@@ -6,6 +6,7 @@ import java.net.URL;
 import javax.swing.*;
 import javax.swing.event.*;
 import MainComponents.*;
+import innerTools.SizePreview;
 
 
 

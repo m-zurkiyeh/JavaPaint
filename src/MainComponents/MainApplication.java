@@ -27,7 +27,6 @@ public class MainApplication {
 	boolean colorChanged = true;
 	private static JFrame frame = new JFrame();
 	CanvasPanel cp = new CanvasPanel(1);
-	PencilAdjust pa = new PencilAdjust(cp);
 	InnerTools it = new InnerTools();
 	ButtonsMenu bm = new ButtonsMenu();
 	TopMenu tm = new TopMenu();
@@ -54,6 +53,10 @@ public class MainApplication {
 		initGUI(swingComponents);
 	}
 
+	/**
+	 * Initializes the entire GUI for the user to interact with
+	 * @param components the array of type Object
+	 */
 	private void initGUI(Object[] components) {
 		frame.setSize(new Dimension(1280, 800));
 		frame.setTitle("Canvas Painter");
@@ -61,17 +64,19 @@ public class MainApplication {
 		frame.setVisible(true);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
-		frame.add(pa,BorderLayout.NORTH);
 		frame.add(cp, BorderLayout.CENTER);
 		frame.add(bm, BorderLayout.WEST);
 		frame.setJMenuBar(tm);
 		for (Object o : components)
 			bm.add((Component) o);
 		bm.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pa.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Returns the current frame the application is using
+	 * @return frame the object of type JFrame
+	 */
 	public static JFrame getFrame() {
 		return frame;
 	}
