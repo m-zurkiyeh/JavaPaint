@@ -1,5 +1,6 @@
 package innerTools;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -19,6 +20,7 @@ public class SizePreview extends JPanel {
 	private int circleX;
 	private int circleY;
 	private int circleRadius;
+	private Color defaultCol = new Color(51,51,51);
 
 	public SizePreview(PencilAdjust pa, CanvasPanel cv) {
 		this.setPreferredSize(new Dimension(100, 100));
@@ -38,7 +40,7 @@ public class SizePreview extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		this.g = g;
-		g.setColor(cv.getDrawColor());
+		g.setColor(defaultCol);
 		int panelWidth = getWidth();
 		int panelHeight = getHeight();
 
@@ -61,6 +63,6 @@ public class SizePreview extends JPanel {
 	}
 	
 	public static void setColor() {
-		cv.setDrawColor(cv.getDrawColor());
+		//cv.setDrawColor(cv.getDrawColor());
 	}
 }

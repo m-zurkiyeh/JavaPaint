@@ -80,4 +80,6 @@ public class MainApplication {
 	public static JFrame getFrame() {
 		return frame;
 	}
+	
+	
 }
