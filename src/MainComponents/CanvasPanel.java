@@ -8,13 +8,14 @@ import javax.swing.text.html.CSS;
 
 import buttons.ColorPicker;
 import buttons.ColorSlider;
+import innerTools.PencilAdjust;
 
 import java.awt.*;
 
 /**
  * This class represents the primary panel in which the user will be drawing on
  * 
- * @author Malik
+ * @author Malik Zurkiyeh
  * 
  */
 public class CanvasPanel extends JPanel {
@@ -23,10 +24,10 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// Both arraylists are essential. Do not Remove!
-	private ArrayList<Point> points = new ArrayList<>(), eraPoints = new ArrayList<>();
-	private ArrayList<Color> colors = new ArrayList<>(), eraColors = new ArrayList<>();
-	private ArrayList<Integer> drawSizes = new ArrayList();
+	// Both arraylists are essential. DO NOT REMOVE
+	private ArrayList<Point> points = new ArrayList<>();
+	private ArrayList<Color> colors = new ArrayList<>();
+	private ArrayList<Integer> drawSizes = new ArrayList<Integer>();
 	static ColorSlider cs = new ColorSlider();
 	public static String currentTool = "Pencil";
 	private int drawSize = 30, xbegin = 0, ybegin = 0, xend = 0, yend = 0;
@@ -36,21 +37,14 @@ public class CanvasPanel extends JPanel {
 			lastColor = new Color(51, 51, 51);
 	Graphics graphics;
 	Graphics2D g2D;
+	PencilAdjust pa = new PencilAdjust(this);
 
 	/**
-	 * Default Constructor for the CanvasPanel Class
+	 * Primary constructor for the CanvasPanel class
 	 */
 	public CanvasPanel() {
-
-	}
-
-	/**
-	 * Parameterized constructor for CanvasPanel
-	 * 
-	 * @param i serves no purpose but as a placeholder should the use of the default
-	 *          constructor is necessary
-	 */
-	public CanvasPanel(int i) {
+		setLayout(new BorderLayout());
+		this.add(pa, BorderLayout.NORTH);
 		addMouseMotionListener(new MouseMotionListener() {
 
 			@Override
@@ -70,20 +64,20 @@ public class CanvasPanel extends JPanel {
 			public void mouseDragged(MouseEvent e) {
 				switch (currentTool) {
 				case "Pencil":
-					points.add(new Point(e.getX(), e.getY()));
+					points.add(new Point(e.getX() - drawSize / 2, e.getY() - drawSize / 2));
 					colors.add(getDrawColor());
 					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Eraser":
-					points.add(new Point(e.getX(), e.getY()));
+					points.add(new Point(e.getX() - drawSize / 2, e.getY() - drawSize / 2));
 					colors.add(eraserColor);
 					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Line Draw":
-					xbegin = xend = e.getX();
-					ybegin = yend = e.getY();
+					xend = e.getX();
+					yend = e.getY();
 					repaint();
 					break;
 				}
@@ -119,29 +113,26 @@ public class CanvasPanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				switch (currentTool) {
 				case "Pencil":
-					points.add(new Point(e.getX(), e.getY()));
+					points.add(new Point(e.getX() - drawSize / 2, e.getY() - drawSize / 2));
 					colors.add(color);
 					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Eraser":
-					points.add(new Point(e.getX(), e.getY()));
+					points.add(new Point(e.getX() - drawSize / 2, e.getY() - drawSize / 2));
 					colors.add(eraserColor);
 					drawSizes.add(drawSize);
 					repaint();
 					break;
 				case "Line Draw":
+					xbegin = xend = e.getX();
+					ybegin = yend = e.getY();
+					repaint();
 					break;
 				}
 
 			}
 
-			/**
-			 * After the mouse has been released, all items inside of the points and colors
-			 * Array lists are removed to save resources
-			 * 
-			 * @return void
-			 */
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				switch (currentTool) {
@@ -149,6 +140,7 @@ public class CanvasPanel extends JPanel {
 					xend = e.getX();
 					yend = e.getY();
 					repaint();
+					break;
 				}
 			}
 
@@ -180,18 +172,28 @@ public class CanvasPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g2D = (Graphics2D) g;
+
+		for (int i = 0; i < points.size(); i++) {
+			g2D.setColor(colors.get(i));
+			Point p = points.get(i);
+			g2D.fillOval((int) p.getX(), (int) p.getY(), drawSizes.get(i), drawSizes.get(i));
+		}
+		
+		g2D.drawLine(xbegin, ybegin, xend, yend);
+		
+		
 		switch (currentTool) {
-		case "Pencil":
-		case "Eraser":
-			for (int i = 0; i < points.size(); i++) {
-				g2D.setColor(colors.get(i));
-				Point p = points.get(i);
-				g2D.fillOval((int) p.getX() - 15, (int) p.getY() - 15, drawSizes.get(i),drawSizes.get(i));
-			}
-			break;
+//		case "Pencil":
+//		case "Eraser":
+//			for (int i = 0; i < points.size(); i++) {
+//				g2D.setColor(colors.get(i));
+//				Point p = points.get(i);
+//				g2D.fillOval((int) p.getX(), (int) p.getY(), drawSizes.get(i),drawSizes.get(i));
+//			}
+//			break;
 
 		case "Line Draw":
-			g2D.drawLine(xbegin, ybegin, xend, yend);
+			//g2D.drawLine(xbegin, ybegin, xend, yend);
 			break;
 		}
 
@@ -207,12 +209,16 @@ public class CanvasPanel extends JPanel {
 		color = newColor;
 		lastColor = color;
 	}
-	
+
 	public void setDrawSize(int drawSize) {
-		this.drawSize = drawSize;		
+		this.drawSize = drawSize;
 	}
 
-	
+	/**
+	 * Returns the previous color
+	 * 
+	 * @return lastColor the variable of type
+	 */
 	public Color getLastColor() {
 		return lastColor;
 	}
@@ -222,19 +228,29 @@ public class CanvasPanel extends JPanel {
 	}
 
 	/**
-	 * Sets the string
+	 * Sets the current tool
 	 * 
-	 * @param tool
+	 * @param tool the parameter of type String
 	 * @return void
 	 */
 	public void setCurrentTool(String tool) {
 		currentTool = tool;
 	}
 
+	/**
+	 * Returns the current tool string
+	 * 
+	 * @return currentTool the variable of typ String
+	 */
 	public String getCurrentTool() {
 		return currentTool;
 	}
 
+	/**
+	 * Returns the current color
+	 * 
+	 * @return color the variable of type Color
+	 */
 	public Color getDrawColor() {
 		return color;
 

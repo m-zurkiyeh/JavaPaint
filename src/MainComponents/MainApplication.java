@@ -26,7 +26,7 @@ public class MainApplication {
 	private double width = screenSize.getWidth(), height = screenSize.getHeight();
 	boolean colorChanged = true;
 	private static JFrame frame = new JFrame();
-	CanvasPanel cp = new CanvasPanel(1);
+	CanvasPanel cp = new CanvasPanel();
 	InnerTools it = new InnerTools();
 	ButtonsMenu bm = new ButtonsMenu();
 	TopMenu tm = new TopMenu();
@@ -40,16 +40,11 @@ public class MainApplication {
 	LineDraw ld = new LineDraw(cp);
 	private Object[] swingComponents = { e, cs, colPicker, s, p, pb,ld};
 
-	public MainApplication() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
-	 * Parameterized Constructor for the MainApplication Class
-	 * 
-	 * @param i
+	 * Default Constructor for the MainApplication Class
 	 */
-	MainApplication(int i) {
+	MainApplication() {
 		initGUI(swingComponents);
 	}
 
