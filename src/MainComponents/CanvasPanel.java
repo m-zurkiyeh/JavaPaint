@@ -8,7 +8,7 @@ import javax.swing.text.html.CSS;
 
 import buttons.ColorPicker;
 import buttons.ColorSlider;
-import innerTools.PencilAdjust;
+import innerTools.*;
 
 import java.awt.*;
 
@@ -27,7 +27,9 @@ public class CanvasPanel extends JPanel {
 	// Both arraylists are essential. DO NOT REMOVE
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Color> colors = new ArrayList<>();
-	private ArrayList<Integer> drawSizes = new ArrayList<Integer>();
+	private ArrayList<Integer> drawSizes = new ArrayList<>();
+	private ArrayList<Line> lines =  new ArrayList<>();
+	private Line currentLine = null;
 	static ColorSlider cs = new ColorSlider();
 	public static String currentTool = "Pencil";
 	private int drawSize = 30, xbegin = 0, ybegin = 0, xend = 0, yend = 0;
@@ -76,8 +78,11 @@ public class CanvasPanel extends JPanel {
 					repaint();
 					break;
 				case "Line Draw":
-					xend = e.getX();
-					yend = e.getY();
+					if (currentLine != null) {
+	                    currentLine.setX2(e.getX());
+	                    currentLine.setY2(e.getY());
+	                    repaint();
+	                }
 					repaint();
 					break;
 				}
@@ -104,6 +109,9 @@ public class CanvasPanel extends JPanel {
 					}
 					break;
 				case "Paint Bucket":
+					points.clear();
+					colors.clear();
+					drawSizes.clear();
 					setBackground(lastColor);
 				}
 
@@ -127,6 +135,8 @@ public class CanvasPanel extends JPanel {
 				case "Line Draw":
 					xbegin = xend = e.getX();
 					ybegin = yend = e.getY();
+					currentLine = new Line(xbegin, ybegin, xend, yend);
+                    lines.add(currentLine);
 					repaint();
 					break;
 				}
@@ -137,9 +147,11 @@ public class CanvasPanel extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				switch (currentTool) {
 				case "Line Draw":
-					xend = e.getX();
-					yend = e.getY();
-					repaint();
+					if (currentLine != null) {
+	                    currentLine.setX2(e.getX());
+	                    currentLine.setY2(e.getY());
+	                    repaint();
+	                }
 					break;
 				}
 			}
@@ -167,6 +179,7 @@ public class CanvasPanel extends JPanel {
 	 * respectively
 	 * 
 	 * @param g object of type Graphics
+	 * @return void
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
@@ -178,24 +191,9 @@ public class CanvasPanel extends JPanel {
 			Point p = points.get(i);
 			g2D.fillOval((int) p.getX(), (int) p.getY(), drawSizes.get(i), drawSizes.get(i));
 		}
-		
-		g2D.drawLine(xbegin, ybegin, xend, yend);
-		
-		
-		switch (currentTool) {
-//		case "Pencil":
-//		case "Eraser":
-//			for (int i = 0; i < points.size(); i++) {
-//				g2D.setColor(colors.get(i));
-//				Point p = points.get(i);
-//				g2D.fillOval((int) p.getX(), (int) p.getY(), drawSizes.get(i),drawSizes.get(i));
-//			}
-//			break;
-
-		case "Line Draw":
-			//g2D.drawLine(xbegin, ybegin, xend, yend);
-			break;
-		}
+		for(Line line: lines)
+			line.draw(g);
+		//g2D.drawLine(xbegin, ybegin, xend, yend);
 
 	}
 
@@ -257,3 +255,4 @@ public class CanvasPanel extends JPanel {
 	}
 
 }
+
