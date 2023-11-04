@@ -45,7 +45,7 @@ public class Eraser extends JLabel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		cv.setCurrentTool("Eraser");
 		frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		cv.setEraserColor(DEFAULT_COLOR);
+		//cv.setEraserColor(DEFAULT_COLOR);
 	}
 
 	@Override
