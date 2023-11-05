@@ -22,7 +22,7 @@ public class CanvasPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// Both arraylists are essential. DO NOT REMOVE
 	private ArrayList<Point> points = new ArrayList<>();
-	private ArrayList<Color> colors = new ArrayList<>();
+	private ArrayList<Color> colors = new ArrayList<>(), lineColors = new ArrayList<>();
 	private ArrayList<Integer> drawSizes = new ArrayList<>();
 	private ArrayList<Line> lines = new ArrayList<>();
 	private Line currentLine = null;
@@ -30,7 +30,7 @@ public class CanvasPanel extends JPanel {
 	public static String currentTool = "Pencil";
 	private int drawSize = 30, strokeSize = 10, xbegin = 0, ybegin = 0, xend = 0, yend = 0;
 	private Robot robot;
-	private Point co, startPoint;
+	private Point co;
 	private Color color, pickerColor, pickedColor, eraserColor = new Color(238, 238, 238),
 			lastColor = new Color(51, 51, 51);
 	Graphics graphics;
@@ -134,7 +134,8 @@ public class CanvasPanel extends JPanel {
 				case "Line Draw":
 					xbegin = xend = e.getX();
 					ybegin = yend = e.getY();
-					currentLine = new Line(xbegin, ybegin, xend, yend, strokeSize);
+					//lineColors.add(color);
+					currentLine = new Line(xbegin, ybegin, xend, yend, strokeSize,color);
 					lines.add(currentLine);
 					repaint();
 					break;
@@ -192,9 +193,9 @@ public class CanvasPanel extends JPanel {
 			g2D.fillOval((int) p.getX(), (int) p.getY(), drawSizes.get(i), drawSizes.get(i));
 		}
 		for (Line line : lines) {
-			// line.repaint();
-			g2D.setStroke(new BasicStroke(strokeSize));
-			g2D.drawLine(line.getX1(), line.getY1(), line.getX2(), line.getY2());
+			line.paintComponent(g);
+//			g2D.setStroke(new BasicStroke(strokeSize));
+//			g2D.drawLine(line.getX1(), line.getY1(), line.getX2(), line.getY2());
 		}
 		// g2d.setColor(color);
 

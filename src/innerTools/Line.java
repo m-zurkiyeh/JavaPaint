@@ -13,21 +13,21 @@ public class Line extends JPanel {
 	private Color color;
 	private int strokeSize;
 	private CanvasPanel cv;
+	//private Graphics g;
 	
-    public Line(int x1, int y1, int x2, int y2, int strokeSize) {
+    public Line(int x1, int y1, int x2, int y2, int strokeSize,Color color) {
     	this.x1 = x1;
     	this.y1 = y1;
     	this.x2 = x2;
     	this.y2 = y2;
     	this.strokeSize = strokeSize;
-//    	this.color = color;
-//    	this.drawSize = drawSize;
+    	this.color = color;
     }
     
     @Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(color);
         g2d.setStroke(new BasicStroke(strokeSize));
         g2d.drawLine(x1, y1, x2, y2);
