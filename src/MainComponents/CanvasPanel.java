@@ -174,7 +174,6 @@ public class CanvasPanel extends JPanel {
 	 * Overridden version of paintComponent that draws the shapes by iterating
 	 * through the points and colors arraylists to draw shape with its set color
 	 * respectively
-	 * 
 	 * @param g object of type Graphics
 	 * @return void
 	 */
@@ -203,10 +202,18 @@ public class CanvasPanel extends JPanel {
 		lineColor = newColor;
 	}
 
+	/**
+	 * Sets the trail size
+	 * @param drawSize the variable of type int to be used for changing the trail size
+	 */
 	public void setDrawSize(int drawSize) {
 		this.drawSize = drawSize;
 	}
 
+	/**
+	 * Sets the stroke for the line draw
+	 * @param strokeSize the value of type int that is used to change the line's stroke
+ 	 */
 	public void setStrokeSize(int strokeSize) {
 		this.strokeSize = strokeSize;
 	}
@@ -247,7 +254,11 @@ public class CanvasPanel extends JPanel {
 	public Color getDrawColor() {
 		return color;
 	}
-
+/**
+ * Uses the points arraylist to draw the mouse trail
+ * @param g2d the variable of type Graphics2D
+ * @return void
+ */
 	public void drawPencilTrails(Graphics2D g2d) {
 		for (int i = 0; i < points.size(); i++) {
 			g2D.setColor(colors.get(i));
