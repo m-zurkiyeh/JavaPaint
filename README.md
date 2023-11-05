@@ -13,3 +13,4 @@ private ArrayList<Color> colors = new ArrayList<>();
 private ArrayList<Integer> drawSizes = new ArrayList<>();
 private ArrayList<Line> lines =  new ArrayList<>();
 ```
+These arraylists are necessary to store the mouse inputs for drawing since Java swing does not retain the trails themselves
